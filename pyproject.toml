@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "msa-account-asgi"
+version = "0.1.0"
+description = "asgi toy project"
+authors = ["dmin0211 <kdmin0211@gmail.com>"]
+readme = "README.md"
+packages = [{include = "msa_account_asgi"}]
+
+[tool.poetry.dependencies]
+python = "3.10.4"
+fastapi = "^0.88.0"
+uvicorn = "^0.20.0"
+pydantic = {extras = ["dotenv"], version = "^1.10.4"}
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.0"
+pytest-asyncio = "^0.20.3"
+flake8 = "^6.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
