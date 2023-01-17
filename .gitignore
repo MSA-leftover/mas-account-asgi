@@ -1,6 +1,12 @@
 # Created by https://www.toptal.com/developers/gitignore/api/macos,pycharm,windows,dotenv
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,pycharm,windows,dotenv
 
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+
 ### dotenv ###
 .env
 
