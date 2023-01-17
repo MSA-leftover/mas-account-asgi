@@ -11,6 +11,8 @@ python = "3.10.4"
 fastapi = "^0.88.0"
 uvicorn = "^0.20.0"
 pydantic = {extras = ["dotenv"], version = "^1.10.4"}
+sqlalchemy = "^1.4.46"
+aiomysql = "^0.1.1"
 
 
 [tool.poetry.group.dev.dependencies]
