@@ -1,17 +1,57 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
+from datetime import datetime
+from typing import List
+
+from account.domain.vo import History, HistoryType
+
+from . import events
 
 
 @dataclass(eq=False)
 class Account:
-    id: str
+    account_number: str
     user_id: str
     name: str
-    amount: int
+    cash: int
+    histories: List[History]
+    events: List[events.Event]
+    created_at: datetime | None = None
+    updated_at: datetime | None = None
+    deleted_at: datetime | None = None
 
     def __eq__(self, other) -> bool:
         if isinstance(other, type(self)):
-            return self.id == other.id
+            return self.account_number == other.account_number
         return False
 
     def __hash__(self) -> int:
-        return hash(self.id)
+        return hash(self.account_number)
+
+    # 출금
+    def withdraw(self, amount: int, description: str = '', other_account_number: str | None = None):
+        if self.cash < amount:
+            self.events.append(events.InsufficientCash(account_number=self.account_number))
+
+        self.cash -= amount
+        self.histories.append(History(
+            account_number=self.account_number,
+            amount=amount,
+            description=description,
+            other_account_number=other_account_number,
+            type=HistoryType.WITHDRAW,
+        ))
+        self.events.append(events.Withdrew(account_number=self.account_number, amount=amount))
+
+    # 입금
+    def deposit(self, amount: int, description: str = '', other_account_number: str | None = None):
+        self.cash += amount
+        self.histories.append(History(
+            account_number=self.account_number,
+            amount=amount,
+            description=description,
+            other_account_number=other_account_number,
+            type=HistoryType.DEPOSIT,
+        ))
+        self.events.append(events.Deposited(account_number=self.account_number, amount=amount))
