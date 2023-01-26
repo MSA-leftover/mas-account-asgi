@@ -1,3 +1,4 @@
+from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -14,12 +15,11 @@ DATABASE_URI = "{}://{}:{}@{}:{}/{}".format(
     settings.db_name,
 )
 
-def get_session_factory():
-    engine = create_async_engine(DATABASE_URI, future=True)
+engine = create_async_engine(DATABASE_URI, future=True)
 
-    return sessionmaker(
-        engine,
-        expire_on_commit=False,
-        autoflush=False,
-        class_=AsyncSession,
-    )
+async_transactional_session: sessionmaker = sessionmaker(
+    engine,  # type: ignore
+    expire_on_commit=False,
+    autoflush=False,
+    class_=AsyncSession,
+)
