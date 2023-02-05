@@ -1,4 +1,3 @@
-from fastapi import Depends
 from random import randrange
 
 from account.domain import events, commands, exceptions, entity
@@ -35,7 +34,7 @@ async def open_account(
 
 async def withdraw(
         cmd: commands.Withdraw,
-        uow: uow.AbstractUnitOfWork = Depends(uow.SqlAlchemyUnitOfWork),
+        uow: uow.AbstractUnitOfWork,
 ):
     async with uow:
         account = await uow.repository.get(account_number=cmd.account_number)
@@ -48,7 +47,7 @@ async def withdraw(
 
 async def deposit(
         cmd: commands.Deposit,
-        uow: uow.AbstractUnitOfWork = Depends(uow.SqlAlchemyUnitOfWork),
+        uow: uow.AbstractUnitOfWork,
 ):
     async with uow:
         account = await uow.repository.get(account_number=cmd.account_number)
@@ -61,7 +60,7 @@ async def deposit(
 
 async def insufficient_cash_from_account(
         event: events.InsufficientCash,
-        uow: uow.AbstractUnitOfWork = Depends(uow.SqlAlchemyUnitOfWork),
+        uow: uow.AbstractUnitOfWork,
 ):
     pass
 
