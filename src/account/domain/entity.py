@@ -32,11 +32,11 @@ class Account:
             self.events.append(
                 events.InsufficientCash(account_number=self.account_number)
             )
-
-        self.cash -= amount
-        self.events.append(
-            events.Withdrew(account_number=self.account_number, amount=amount)
-        )
+        else:
+            self.cash -= amount
+            self.events.append(
+                events.Withdrew(account_number=self.account_number, amount=amount)
+            )
 
     # 입금
     def deposit(self, amount: int):

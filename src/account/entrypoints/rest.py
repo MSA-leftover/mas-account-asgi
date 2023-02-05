@@ -79,3 +79,23 @@ async def create_account(
 ):
     await bus.handle(command)
     return 'OK'
+
+
+@router.put('/{account_number}/deposit', status_code=status.HTTP_202_ACCEPTED)
+async def patch_account_for_deposit(
+        account_number: str,
+        command: commands.Deposit = Body(),
+        bus: MessageBus = Depends()
+):
+    await bus.handle(command)
+    return 'OK'
+
+
+@router.put('/{account_number/withdraw', status_code=status.HTTP_202_ACCEPTED)
+async def patch_account_for_withdraw(
+        account_number: str,
+        command: commands.Withdraw = Body(),
+        bus: MessageBus = Depends()
+):
+    await bus.handle(command)
+    return 'OK'
