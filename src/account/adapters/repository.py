@@ -19,8 +19,8 @@ class AbstractRepository(ABC):
         self._add(account=aggregate)
         self.seen.add(aggregate)
 
-    async def get(self, id: str) -> Account:
-        account: Account = await self._get(id)
+    async def get(self, account_number: str):
+        account = await self._get(account_number)
         if account:
             self.seen.add(account)
         return account
@@ -36,11 +36,11 @@ class AbstractRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def _get(self, id: str) -> Account:
+    async def _get(self, account_number: str):
         raise NotImplementedError
 
     @abstractmethod
-    async def _list_by_userid(self, userid: str) -> List[Account]:
+    async def _list_by_userid(self, userid: str):
         raise NotImplementedError
 
 
@@ -53,14 +53,16 @@ class SqlAlchemyRepository(AbstractRepository):
     def _add(self, account: Account):
         self.session.add(account)
 
-    async def _get(self, id: str) -> Account:
+    async def _get(self, account_number: str):
         query = await self.session.execute(
-            self._base_query.where(Account.id == id).limit(1)
+            self._base_query.where(
+                Account.account_number == account_number
+            ).limit(1)
         )
         return query.scalars().first()
 
-    async def _list_by_userid(self, userid: str) -> List[Account]:
-        query = await  self.session.execute(
+    async def _list_by_userid(self, userid: str):
+        query = await self.session.execute(
             self._base_query.where(Account.user_id == userid)
         )
         return query.scalars().all()
