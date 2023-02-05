@@ -1,5 +1,5 @@
-from sqlalchemy.ext.automap import automap_base
-from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, create_async_engine
+from sqlalchemy.ext.asyncio import \
+    AsyncEngine, AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 
 from settings import settings

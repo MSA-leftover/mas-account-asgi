@@ -1,22 +1,24 @@
 from dataclasses import dataclass
 
 
-class Event:
+class Command:
     pass
 
 
 @dataclass
-class InsufficientCash(Event):
-    account_number: str
+class Opened(Command):
+    user_id: str
+    name: str
+    cash: int = 0
 
 
 @dataclass
-class Withdrew(Event):
+class Withdraw(Command):
     account_number: str
     amount: int
 
 
 @dataclass
-class Deposited(Event):
+class Deposit(Command):
     account_number: str
     amount: int
